@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>JAP PRO - Gestion de Stock</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f6f8;
+            color: #1f2937;
+        }
+
+        header {
+            background: #111827;
+            color: white;
+            padding: 22px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 30px;
+        }
+
+        header p {
+            margin-top: 6px;
+            color: #cbd5e1;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        .card h3 {
+            font-size: 15px;
+            color: #64748b;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .menu {
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .menu button {
+            border: none;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        .menu button:hover {
+            background: #111827;
+            color: white;
+        }
+
+        @media (max-width: 800px) {
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .menu {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>JAP PRO</h1>
+        <p>Gestion de Stock - Menuiserie</p>
+    </header>
+
+    <main class="container">
+
+        <section class="cards">
+
+            <div class="card">
+                <h3>Total Produits</h3>
+                <p>0</p>
+            </div>
+
+            <div class="card">
+                <h3>Stock Disponible</h3>
+                <p>0</p>
+            </div>
+
+            <div class="card">
+                <h3>Stock Faible</h3>
+                <p>0</p>
+            </div>
+
+            <div class="card">
+                <h3>Rupture</h3>
+                <p>0</p>
+            </div>
+
+        </section>
+
+        <section class="menu">
+
+            <button>📦 Stock</button>
+            <button>📥 Entrées</button>
+            <button>📤 Sorties</button>
+            <button>🔎 Recherche</button>
+            <button>📊 Rapports</button>
+            <button>⚙️ Paramètres</button>
+
+        </section>
+
+    </main>
+
+</body>
+</html>
