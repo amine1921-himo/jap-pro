@@ -15,6 +15,7 @@
   "build": {
     "appId": "com.jappro.stock",
     "productName": "JAP PRO",
+    "publish": "never",
     "win": {
       "target": "nsis"
     }
