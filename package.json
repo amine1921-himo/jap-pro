@@ -1,0 +1,22 @@
+
+{
+  "name": "jap-pro",
+  "version": "1.0.0",
+  "description": "JAP PRO - Gestion de Stock Menuiserie",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "devDependencies": {
+    "electron": "^38.2.0",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.jappro.stock",
+    "productName": "JAP PRO",
+    "win": {
+      "target": "nsis"
+    }
+  }
+}
