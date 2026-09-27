@@ -20,10 +20,12 @@ function createWindow() {
         minWidth: 900,
         minHeight: 600,
 
-        webPreferences: {
-            contextIsolation: false,
-            nodeIntegration: true
-        }
+       webPreferences: {
+    preload: path.join(__dirname, "preload.js"),
+    contextIsolation: true,
+    nodeIntegration: false,
+    sandbox: false
+}
     });
 
     win.loadFile("index.html");
