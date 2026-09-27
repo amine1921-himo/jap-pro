@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>JAP PRO - Stock</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f6f8;
+            padding: 30px;
+        }
+
+        .header {
+            background: #17202a;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            margin-bottom: 5px;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .add-btn {
+            background: #198754;
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .add-btn:hover {
+            opacity: 0.9;
+        }
+
+        .search {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ddd;
+            border-radius: 7px;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 10px;
+            overflow-x: auto;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 14px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: #17202a;
+            color: white;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 40px;
+            color: #777;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>JAP PRO</h1>
+        <p>Gestion de Stock - Menuiserie</p>
+    </div>
+
+    <div class="top-bar">
+        <h2>📦 Stock</h2>
+
+        <button class="add-btn" onclick="addProduct()">
+            + Ajouter un produit
+        </button>
+    </div>
+
+    <input
+        type="text"
+        id="search"
+        class="search"
+        placeholder="🔎 Rechercher un produit..."
+        oninput="loadProducts()"
+    >
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Outil</th>
+                    <th>Catégorie</th>
+                    <th>Quantité</th>
+                    <th>Unité</th>
+                    <th>Emplacement</th>
+                    <th>État</th>
+                </tr>
+            </thead>
+
+            <tbody id="productsTable">
+
+                <tr>
+                    <td colspan="6" class="empty">
+                        Aucun produit dans le stock
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <script>
+
+        async function loadProducts() {
+
+            const products = await window.japPro.getProducts();
+
+            const search = document
+                .getElementById("search")
+                .value
+                .toLowerCase();
+
+            const table = document.getElementById("productsTable");
+
+            const filtered = products.filter(product =>
+                product.name.toLowerCase().includes(search) ||
+                product.category.toLowerCase().includes(search)
+            );
+
+            if (filtered.length === 0) {
+
+                table.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="empty">
+                            Aucun produit trouvé
+                        </td>
+                    </tr>
+                `;
+
+                return;
+            }
+
+            table.innerHTML = filtered.map(product => {
+
+                let status = "Disponible";
+
+                if (product.quantity <= 0) {
+                    status = "Rupture";
+                } else if (product.quantity <= product.min_quantity) {
+                    status = "Stock faible";
+                }
+
+                return `
+                    <tr>
+                        <td>${product.name}</td>
+                        <td>${product.category}</td>
+                        <td>${product.quantity}</td>
+                        <td>${product.unit}</td>
+                        <td>${product.location}</td>
+                        <td>${status}</td>
+                    </tr>
+                `;
+
+            }).join("");
+        }
+
+
+        async function addProduct() {
+
+            const name = prompt("Nom de l'outil :");
+
+            if (!name) return;
+
+            const category = prompt("Catégorie :") || "";
+
+            const quantity = prompt("Quantité :") || 0;
+
+            const unit = prompt("Unité :") || "Pièce";
+
+            const location = prompt("Emplacement :") || "";
+
+            const minQuantity = prompt("Seuil minimum :") || 0;
+
+            await window.japPro.addProduct({
+
+                name: name,
+
+                category: category,
+
+                quantity: quantity,
+
+                unit: unit,
+
+                location: location,
+
+                min_quantity: minQuantity
+
+            });
+
+            loadProducts();
+        }
+
+
+        loadProducts();
+
+    </script>
+
+</body>
+
+</html>
